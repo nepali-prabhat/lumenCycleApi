@@ -58,5 +58,4 @@ class GroupController extends Controller
             "msg"=>"user removed from group."
         ];
     }
-    
 }

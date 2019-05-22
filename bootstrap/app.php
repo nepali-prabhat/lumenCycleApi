@@ -98,6 +98,7 @@ $app->router->group([
     require __DIR__.'/../routes/user.php';
     require __DIR__.'/../routes/event.php';
     require __DIR__.'/../routes/group.php';
+    require __DIR__.'/../routes/message.php';
 });
 
 return $app;
