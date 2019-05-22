@@ -3,17 +3,48 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use App\User;
 
 class UserController extends Controller
 {
-    public function getUserById($id){
-        $user = User::findOrFail($id);
-        return $user;
+    public function getUserById($id, Request $request){
+        if($request->has('hosted') || $request->has('participated')){
+            $hosted = FALSE;
+            $participated = FALSE;
+            if($request->has('hosted')){
+                $hosted = (bool)$request->input('hosted');
+            }
+            if($request->has('participated')){
+                $participated = (bool)$request->input('participated');
+            }
+            if(!$hosted && !$participated){
+                $user = User::findOrFail($id);
+                return $user;
+            }
+            $users;
+            if($hosted){
+                if($participated){
+                    $users = User::with('hosted','participated')->get();
+                }else{
+                    $users = User::with('hosted')->get();
+                }
+            }
+            if(!$hosted && $participated){
+                $users = User::with('participated')->get();
+            }
+            foreach($users as $user){
+                if($user->id == $id){
+                    return $user;
+                }
+            }
+            abort(404);
+        }
+        return User::findOrFail($id);
     }
 
     public function getAllUsers(){
-        $users = User::with('hosts')->get();
+        $users = User::all();
         return $users;
     }
 
@@ -62,7 +93,21 @@ class UserController extends Controller
     }
 
     public function getHostedEvents($id){
-        $users = Users::with('hosted')->get();
-        return $users;
+        $users = User::with('hosted')->withCount('hosted')->get();
+        foreach($users as $user){
+            if($user->id == $id){
+                return $user->hosted;
+            }
+        }
+        abort(404);
+    }
+    public function getParticipatedEvents($id){
+        $users = User::with('participated')->withCount('participated')->get();
+        foreach($users as $user){
+            if($user->id == $id){
+                return $user->participated;
+            }
+        }
+        abort(404);
     }
 }

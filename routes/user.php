@@ -6,3 +6,4 @@
     $router->delete('/users/{id}','UserController@deleteUser');
 
     $router->get('/users/hosted/{id}','UserController@getHostedEvents');
+    $router->get('/users/participated/{id}','UserController@getParticipatedEvents');

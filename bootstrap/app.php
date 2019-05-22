@@ -97,6 +97,7 @@ $app->router->group([
     require __DIR__.'/../routes/web.php';
     require __DIR__.'/../routes/user.php';
     require __DIR__.'/../routes/event.php';
+    require __DIR__.'/../routes/group.php';
 });
 
 return $app;

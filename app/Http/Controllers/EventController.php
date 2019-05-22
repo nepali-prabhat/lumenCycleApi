@@ -26,8 +26,18 @@ class EventController extends Controller
         $event['host']= $host[0];
         return $event;
     }
-    public function getAllEvents(){
-        $events = Event::with('host')->get();
+    public function getAllEvents(Request $request){
+        // $this->validate($request,[
+        //     'host'=>'boolean'
+        // ])
+        if($request->has('host')){
+            $host = (bool)$request->input('host');
+            if($host){
+                $events = Event::with('host')->get();
+                return $events;
+            }
+        }
+        $events = Event::all();
         return $events;
     }
     public function addParticipant($event_id,$parti_id){
@@ -47,11 +57,11 @@ class EventController extends Controller
     public function getParticipants($id){
         $events = Event::with('participants')->get();
         foreach($events as $event){
-            if($event->id === $id){
+            if($event->id == $id){
                 return $event->participants;
             }
         }
-        return $event;
+        abort(404);
     }
     public function updateEvent($id,Request $request){
         $event = Event::findOrFail($id);
@@ -80,5 +90,11 @@ class EventController extends Controller
         return [
             "msg"=>"Deleted $id. $name"
         ];
+    }
+
+    public function getGroup($event_id){
+        $event = Event::findOrFail($event_id);
+        $event->group;
+        return $event;
     }
 }

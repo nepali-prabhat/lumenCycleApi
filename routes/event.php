@@ -10,3 +10,6 @@
     $router->delete('/events/{event_id}/{parti_id}', 'EventController@removeParticipant');
     $router->get('/events/participants/{id}','EventController@getParticipants');
 
+    $router->get('/events/group/{event_id}','EventController@getGroup');
+
+

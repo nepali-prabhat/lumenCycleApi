@@ -10,7 +10,7 @@ class User extends Model
     public function hosted(){
         return $this->hasMany('App\Event','host','id');
     }
-    public function participates()
+    public function participated()
     {
         return $this->belongsToMany('App\Event');
     }
