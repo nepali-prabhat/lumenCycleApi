@@ -47,7 +47,10 @@ class UserController extends Controller
         $users = User::all();
         return $users;
     }
-
+    public function getAllUsersId(){
+        $usersId = User::select('id')->get();
+        return $usersId;
+    }
     public function addUser(Request $request){
         $this->validate($request,[
             'f_name'=>'required|min:3',

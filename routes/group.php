@@ -5,4 +5,3 @@
     $router->get('/groups/{id}','GroupController@getGroup');
     $router->post('/groups','GroupController@addGroup');
     $router->delete('/groups/{id}','GroupController@deleteGroup');
-

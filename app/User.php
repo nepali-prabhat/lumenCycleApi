@@ -22,4 +22,7 @@ class User extends Model
     {
         return $this->hasMany('App\Message');
     }
+    public function location(){
+        return $this->hasOne('App\Location');
+    }
 }
